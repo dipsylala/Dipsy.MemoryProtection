@@ -136,7 +136,7 @@ bool isValid = ProtectedSecret.UseSecret(pwd =>
 | Layer | Component | Role |
 |-------|-----------|------------|
 | **Layer 1** | `SecureKeyManager` | AES-256-GCM encryption with random nonces |
-| **Layer 2** | `MemoryProtection` | Session key management & auto-cleanup |
+| **Layer 2** | `SecretEncryption` | Session key management & auto-cleanup |
 | **Layer 3** | `ProtectedSecret` | High-level API with automatic memory clearing |
 
 ## 🔑 How It Works
