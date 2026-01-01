@@ -21,6 +21,13 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
+    
+    - name: Get version from tag
+      id: get_version
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}
+        VERSION=${TAG#v}
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         
     - name: Restore dependencies
       run: dotnet restore Dipsy.MemoryProtection.slnx
@@ -32,14 +39,7 @@ jobs:
       run: dotnet test Dipsy.MemoryProtection.slnx --configuration Release --no-build --verbosity normal
       
     - name: Pack NuGet package
-      run: dotnet pack Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj --configuration Release --no-build --output ./artifacts
-      
-    - name: Get version from tag
-      id: get_version
-      run: |
-        TAG=${GITHUB_REF#refs/tags/}
-        VERSION=${TAG#v}
-        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      run: dotnet pack Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
       
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
