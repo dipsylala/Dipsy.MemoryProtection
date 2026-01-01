@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'      # Trigger on version tags like v1.0.0, v2.1.3
+      - '[0-9]*'  # Also trigger on tags like 0.9.0, 1.0.0
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore Dipsy.MemoryProtection.slnx
+      
+    - name: Build
+      run: dotnet build Dipsy.MemoryProtection.slnx --configuration Release --no-restore
+      
+    - name: Test
+      run: dotnet test Dipsy.MemoryProtection.slnx --configuration Release --no-build --verbosity normal
+      
+    - name: Pack NuGet package
+      run: dotnet pack Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj --configuration Release --no-build --output ./artifacts
+      
+    - name: Get version from tag
+      id: get_version
+      run: |
+        TAG=${GITHUB_REF#refs/tags/}
+        VERSION=${TAG#v}
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+      
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Release ${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
+        files: |
+          ./artifacts/*.nupkg
+        body: |
+          ## Dipsy.MemoryProtection ${{ steps.get_version.outputs.VERSION }}
+          
+          ### Changes in this release
+          - See commit history for details
+          
+          ### Installation
+          
+          #### From NuGet Package
+          Download the `.nupkg` file from this release and install it locally:
+          ```bash
+          dotnet add package Dipsy.MemoryProtection --source /path/to/downloaded/package
+          ```
+          
+          #### From Source
+          ```bash
+          git clone https://github.com/dipsylala/Dipsy.MemoryProtection.git
+          cd Dipsy.MemoryProtection
+          git checkout v${{ steps.get_version.outputs.VERSION }}
+          dotnet build
+          ```
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

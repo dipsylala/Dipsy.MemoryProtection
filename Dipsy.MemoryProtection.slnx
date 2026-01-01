@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="MIGRATE.md" />
+    <File Path="README.md" />
+  </Folder><Project Path="Dipsy.MemoryProtection.Demo/Dipsy.MemoryProtection.Demo.csproj" /><Project Path="Dipsy.MemoryProtection.Tests/Dipsy.MemoryProtection.Tests.csproj" /><Project Path="Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj" /></Solution>
