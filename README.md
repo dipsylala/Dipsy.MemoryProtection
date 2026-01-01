@@ -109,7 +109,7 @@ bool isValid = ProtectedSecret.UseSecret(pwd =>
                           ↓
                           ↓
         ┌───────────────────────────────────┐
-        │    ProtectedSecret              │
+        │    ProtectedSecret                │
         │  • Stores encrypted byte[]        │
         │  • Temporary decryption on demand │
         └───────────────────────────────────┘
