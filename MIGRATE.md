@@ -15,6 +15,7 @@ In practice, many applications still end up converting it back into `string`
 to call APIs, which defeats its purpose.
 
 `Dipsy.MemoryProtection` replaces this with a **callback-based model**:
+
 - secrets are **encrypted in memory by default**
 - plaintext exists **only briefly**
 - cleanup happens automatically (best-effort)
