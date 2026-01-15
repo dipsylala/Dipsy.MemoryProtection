@@ -2,4 +2,4 @@
   <Folder Name="/Solution Items/">
     <File Path="MIGRATE.md" />
     <File Path="README.md" />
-  </Folder><Project Path="Dipsy.MemoryProtection.Demo/Dipsy.MemoryProtection.Demo.csproj" /><Project Path="Dipsy.MemoryProtection.Tests/Dipsy.MemoryProtection.Tests.csproj" /><Project Path="Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj" /></Solution>
+  </Folder><Project Path="Dipsy.Security.MemoryProtection.Demo/Dipsy.Security.MemoryProtection.Demo.csproj" /><Project Path="Dipsy.Security.MemoryProtection.Tests/Dipsy.Security.MemoryProtection.Tests.csproj" /><Project Path="Dipsy.Security.MemoryProtection/Dipsy.Security.MemoryProtection.csproj" /></Solution>

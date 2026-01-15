@@ -1,4 +1,4 @@
-namespace Dipsy.MemoryProtection
+namespace Dipsy.Security.MemoryProtection
 {
     /// <summary>
     /// Stores a secret encrypted in memory. The secret is only decrypted temporarily when accessed via UseSecret callbacks.

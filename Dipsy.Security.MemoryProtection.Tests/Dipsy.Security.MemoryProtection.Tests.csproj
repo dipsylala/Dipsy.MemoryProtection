@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dipsy.MemoryProtection\Dipsy.MemoryProtection.csproj" />
+    <ProjectReference Include="..\Dipsy.Security.MemoryProtection\Dipsy.Security.MemoryProtection.csproj" />
   </ItemGroup>
 
 </Project>

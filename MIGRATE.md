@@ -1,7 +1,7 @@
 # Migrating from `SecureString`
 
 This guide shows how to replace common `SecureString` usage patterns with  
-**Dipsy.MemoryProtection** using short, practical examples.
+**Dipsy.Security.MemoryProtection** using short, practical examples.
 
 The goal is to **reduce plaintext exposure**, centralize cleanup, and make the
 *safe path the easy path* — not to provide protection against in-process attackers.
@@ -14,7 +14,7 @@ The goal is to **reduce plaintext exposure**, centralize cleanup, and make the
 In practice, many applications still end up converting it back into `string`
 to call APIs, which defeats its purpose.
 
-`Dipsy.MemoryProtection` replaces this with a **callback-based model**:
+`Dipsy.Security.MemoryProtection` replaces this with a **callback-based model**:
 
 - secrets are **encrypted in memory by default**
 - plaintext exists **only briefly**

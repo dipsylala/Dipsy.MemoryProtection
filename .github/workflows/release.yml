@@ -29,16 +29,16 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
         
     - name: Restore dependencies
-      run: dotnet restore Dipsy.MemoryProtection.slnx
+      run: dotnet restore Dipsy.Security.MemoryProtection.slnx
       
     - name: Build
-      run: dotnet build Dipsy.MemoryProtection.slnx --configuration Release --no-restore
+      run: dotnet build Dipsy.Security.MemoryProtection.slnx --configuration Release --no-restore
       
     - name: Test
-      run: dotnet test Dipsy.MemoryProtection.slnx --configuration Release --no-build --verbosity normal
+      run: dotnet test Dipsy.Security.MemoryProtection.slnx --configuration Release --no-build --verbosity normal
       
     - name: Pack NuGet package
-      run: dotnet pack Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
+      run: dotnet pack Dipsy.Security.MemoryProtection/Dipsy.Security.MemoryProtection.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
       
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
@@ -49,7 +49,7 @@ jobs:
         files: |
           ./artifacts/*.nupkg
         body: |
-          ## Dipsy.MemoryProtection ${{ steps.get_version.outputs.VERSION }}
+          ## Dipsy.Security.MemoryProtection ${{ steps.get_version.outputs.VERSION }}
           
           ### Changes in this release
           - See commit history for details
@@ -59,13 +59,13 @@ jobs:
           #### From NuGet Package
           Download the `.nupkg` file from this release and install it locally:
           ```bash
-          dotnet add package Dipsy.MemoryProtection --source /path/to/downloaded/package
+          dotnet add package Dipsy.Security.MemoryProtection --source /path/to/downloaded/package
           ```
           
           #### From Source
           ```bash
-          git clone https://github.com/dipsylala/Dipsy.MemoryProtection.git
-          cd Dipsy.MemoryProtection
+          git clone https://github.com/dipsylala/Dipsy.Security.MemoryProtection.git
+          cd Dipsy.Security.MemoryProtection
           git checkout v${{ steps.get_version.outputs.VERSION }}
           dotnet build
           ```

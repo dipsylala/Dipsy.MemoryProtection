@@ -1,11 +1,11 @@
 // See https://aka.ms/new-console-template for more information
 
-using Dipsy.MemoryProtection;
+using Dipsy.Security.MemoryProtection;
 using System.Security.Cryptography;
 using System.Text;
 
 Console.WriteLine("╔═══════════════════════════════════════════════════════════╗");
-Console.WriteLine("║  Dipsy.MemoryProtection - Real-World Demo                 ║");
+Console.WriteLine("║  Dipsy.Security.MemoryProtection - Real-World Demo        ║");
 Console.WriteLine("║  Secure In-Memory Password Encryption for .NET 10         ║");
 Console.WriteLine("╚═══════════════════════════════════════════════════════════╝");
 Console.WriteLine();

@@ -1,4 +1,4 @@
-﻿namespace Dipsy.MemoryProtection
+﻿namespace Dipsy.Security.MemoryProtection
 {
     using System.Security.Cryptography;
     using System.Text;

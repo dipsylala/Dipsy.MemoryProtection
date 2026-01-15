@@ -1,4 +1,4 @@
-namespace Dipsy.MemoryProtection.Tests;
+namespace Dipsy.Security.MemoryProtection.Tests;
 
 using System.Security.Cryptography;
 using System.Text;

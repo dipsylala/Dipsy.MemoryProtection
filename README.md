@@ -1,4 +1,4 @@
-# Dipsy.MemoryProtection
+# Dipsy.Security.MemoryProtection
 
 A modern .NET library for **reducing plaintext exposure of sensitive data in memory** using AES-256-GCM encryption. Designed as a replacement for the deprecated `SecureString` class.
 
@@ -28,38 +28,38 @@ A modern .NET library for **reducing plaintext exposure of sensitive data in mem
 
 ### Option 1: Download NuGet Package from Releases
 
-Download the latest `.nupkg` file from the [Releases page](https://github.com/dipsylala/Dipsy.MemoryProtection/releases):
+Download the latest `.nupkg` file from the [Releases page](https://github.com/dipsylala/Dipsy.Security.MemoryProtection/releases):
 
 ```bash
 # Install from downloaded package
-dotnet add package Dipsy.MemoryProtection --source /path/to/downloaded/package
+dotnet add package Dipsy.Security.MemoryProtection --source /path/to/downloaded/package
 
 # Or add it to a local NuGet source
-nuget add Dipsy.MemoryProtection.{version}.nupkg -source C:\MyLocalNuGetSource
-dotnet add package Dipsy.MemoryProtection --source C:\MyLocalNuGetSource
+nuget add Dipsy.Security.MemoryProtection.{version}.nupkg -source C:\MyLocalNuGetSource
+dotnet add package Dipsy.Security.MemoryProtection --source C:\MyLocalNuGetSource
 ```
 
 ### Option 2: Clone and Build from Source
 
 ```bash
-git clone https://github.com/dipsylala/Dipsy.MemoryProtection.git
-cd Dipsy.MemoryProtection
+git clone https://github.com/dipsylala/Dipsy.Security.MemoryProtection.git
+cd Dipsy.Security.MemoryProtection
 dotnet build
 ```
 
 ### Option 3: Add Project Reference
 
-Add a reference to the `Dipsy.MemoryProtection` project in your application:
+Add a reference to the `Dipsy.Security.MemoryProtection` project in your application:
 
 ```bash
-dotnet add reference path/to/Dipsy.MemoryProtection/Dipsy.MemoryProtection.csproj
+dotnet add reference path/to/Dipsy.Security.MemoryProtection/Dipsy.Security.MemoryProtection.csproj
 ```
 
 Or manually edit your `.csproj` file:
 
 ```xml
 <ItemGroup>
-  <ProjectReference Include="..\Dipsy.MemoryProtection\Dipsy.MemoryProtection.csproj" />
+  <ProjectReference Include="..\Dipsy.Security.MemoryProtection\Dipsy.Security.MemoryProtection.csproj" />
 </ItemGroup>
 ```
 
@@ -70,7 +70,7 @@ Or manually edit your `.csproj` file:
 ### Basic Usage
 
 ```csharp
-using Dipsy.MemoryProtection;
+using Dipsy.Security.MemoryProtection;
 
 // Create password as char array (never use string for passwords!)
 char[] password = "MySecurePassword123!".ToCharArray();
@@ -99,7 +99,7 @@ bool isValid = ProtectedSecret.UseSecret(pwd =>
 
 ### Design Overview
 
-```
+```text
 ┌───────────────────────────────────────────────────────┐
 │  SecretEncryption.Instance (Singleton)                │
 │  • Generates 32-byte random AES-256 key on first use  │
@@ -134,7 +134,7 @@ bool isValid = ProtectedSecret.UseSecret(pwd =>
 ### Security Layers
 
 | Layer | Component | Role |
-|-------|-----------|------------|
+| ------- | ----------- | ------------ |
 | **Layer 1** | `SecureKeyManager` | AES-256-GCM encryption with random nonces |
 | **Layer 2** | `SecretEncryption` | Session key management & auto-cleanup |
 | **Layer 3** | `ProtectedSecret` | High-level API with automatic memory clearing |
@@ -155,10 +155,11 @@ bool isValid = ProtectedSecret.UseSecret(pwd =>
 - **Key size:** 256 bits (32 bytes)
 - **Nonce:** 96 bits (12 bytes) - randomly generated per encryption
 - **Tag size:** 128 bits (16 bytes) - for authentication
-- **AAD (Associated Data):** `"Dipsy.MemoryProtection:v1"` - binds ciphertext to context
+- **AAD (Associated Data):** `"Dipsy.Security.MemoryProtection:v1"` - binds ciphertext to context
 - **Result:** Each encryption produces different ciphertext (even for same plaintext)
 
 **AAD Benefits:**
+
 - Prevents ciphertext from being moved between different contexts
 - Provides additional integrity verification
 - Protects against mix-and-match attacks if library is extended
@@ -210,6 +211,7 @@ dotnet test
 ```
 
 **Test Coverage:**
+
 - ✅ 30 unit tests
 - ✅ All encryption/decryption scenarios
 - ✅ Memory clearing verification
@@ -233,21 +235,27 @@ dotnet test
 **This library provides defense in depth, but it is NOT a solution for:**
 
 ❌ **Attackers with code execution in your process**
+
 - If malware is running in your application's memory space, it can access the decrypted password during callbacks
 
 ❌ **Debuggers or injected DLLs**
+
 - Debuggers can pause execution during `UseSecret()` callbacks and inspect plaintext
 - Injected code can hook into your process and capture passwords
 
 ❌ **Malware running as the same user**
+
 - Process memory can be dumped by other processes running with the same privileges
 - User-mode malware can inspect your application's memory
 
 ❌ **OS-level memory inspection**
+
 - Kernel-mode drivers or system administrators can inspect process memory
+
 - Hibernation files and crash dumps may contain decrypted passwords if captured during callbacks
 
 **What it DOES help with:**
+
 - ✅ Reduces exposure window (password in cleartext only during callbacks)
 - ✅ Defense against casual memory dumps when password is not being used
 - ✅ Better than storing passwords as plaintext `string` or `char[]`
@@ -260,12 +268,14 @@ dotnet test
 **This library generates a NEW random encryption key every time your application starts.** This means:
 
 ❌ **DO NOT use for:**
+
 - Encrypting passwords to save to disk
 - Storing encrypted data in databases
 - Persisting encrypted configuration files
 - Any scenario where data must survive app restart
 
 ✅ **DO use for:**
+
 - Protecting passwords in RAM during application runtime
 - Temporary storage of API keys/tokens while app is running
 - In-memory credential caching
@@ -276,17 +286,20 @@ dotnet test
 ### Other Limitations
 
 ⚠️ **Cleanup is Best-Effort**
+
 - Shutdown hooks won't run on hard termination/crash
 - Application must exit normally for cleanup to occur
 - Consider this defense-in-depth, not absolute protection
 
 ⚠️ **Managed Memory Constraints**
+
 - Key material is stored in managed memory (subject to GC movement)
 - Encoding conversions may create transient runtime buffers
 - Not all runtime-created buffers can be reliably wiped
 - Protection is against casual memory dumps, not in-process attackers
 
 ⚠️ **Callers Must Cooperate**
+
 - `UseSecret()` auto-clears the password after the callback
 - BUT callers can still leak if they copy the password (e.g., `new string(pwd)`)
 - Follow the anti-patterns guidance in the demo
@@ -295,12 +308,14 @@ dotnet test
 
 `SecureString` is deprecated/discouraged for new development and often provides less real-world protection than people assume.
 
-**How Dipsy.MemoryProtection differs:**
+**How Dipsy.Security.MemoryProtection differs:**
+
 - Stores the secret **encrypted in memory by default**, reducing plaintext exposure during normal runtime.
 - Uses a **callback-based API (`UseSecret`)** so plaintext exists only briefly and is **automatically cleared** after use (best-effort).
 - Behaves consistently across **Windows/Linux/macOS** (within managed-runtime limitations).
 
 **What is the same (important):**
+
 - Neither this library nor `SecureString` protects against **attackers with code execution in your process**, debuggers, injected DLLs, or OS-level memory inspection.
 - If you ever convert secrets to `string` (e.g., `new string(pwd)`), you defeat the benefit—strings are immutable and can’t be reliably wiped.
 
@@ -320,6 +335,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ## 🤝 Contributing
 
 Contributions welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Add tests for new functionality
@@ -328,7 +344,7 @@ Contributions welcome! Please:
 
 ## 🐛 Issues
 
-Found a bug or have a suggestion? Please [open an issue](https://github.com/dipsylala/Dipsy.MemoryProtection/issues).
+Found a bug or have a suggestion? Please [open an issue](https://github.com/dipsylala/Dipsy.Security.MemoryProtection/issues).
 
 ## 📚 Additional Resources
 
@@ -338,4 +354,4 @@ Found a bug or have a suggestion? Please [open an issue](https://github.com/dips
 
 ---
 
-**Built with ❤️ for secure .NET applications**
+Built with ❤️ for secure .NET applications

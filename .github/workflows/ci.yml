@@ -22,10 +22,10 @@ jobs:
         dotnet-version: '10.0.x'
     
     - name: Restore dependencies
-      run: dotnet restore Dipsy.MemoryProtection.slnx
+      run: dotnet restore Dipsy.Security.MemoryProtection.slnx
       
     - name: Build
-      run: dotnet build Dipsy.MemoryProtection.slnx --configuration Release --no-restore
+      run: dotnet build Dipsy.Security.MemoryProtection.slnx --configuration Release --no-restore
       
     - name: Test
-      run: dotnet test Dipsy.MemoryProtection.slnx --configuration Release --no-build --verbosity normal
+      run: dotnet test Dipsy.Security.MemoryProtection.slnx --configuration Release --no-build --verbosity normal

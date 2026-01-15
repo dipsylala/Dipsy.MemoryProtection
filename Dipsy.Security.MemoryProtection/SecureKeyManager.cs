@@ -1,4 +1,4 @@
-﻿namespace Dipsy.MemoryProtection
+﻿namespace Dipsy.Security.MemoryProtection
 {
     using System;
     using System.Security.Cryptography;
@@ -12,7 +12,7 @@
         private const int TagSize = 16;    // 128 bits - standard authentication tag
         
         // Associated data for binding ciphertext to context
-        private static readonly byte[] DefaultAad = Encoding.UTF8.GetBytes("Dipsy.MemoryProtection:v1");
+        private static readonly byte[] DefaultAad = Encoding.UTF8.GetBytes("Dipsy.Security.MemoryProtection:v1");
         
         private byte[]? _keyBytes = InitializeKey(key);
         private bool _disposed = false;
