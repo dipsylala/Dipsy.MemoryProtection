@@ -131,6 +131,7 @@ ProtectedSecret.UseSecret(pwd =>
 ## When not to migrate
 
 Do not use this library if you need:
+
 - encryption across restarts
 - storage at rest
 - protection against in-process attackers
