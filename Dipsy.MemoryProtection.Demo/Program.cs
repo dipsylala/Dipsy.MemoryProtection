@@ -5,8 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 
 Console.WriteLine("╔═══════════════════════════════════════════════════════════╗");
-Console.WriteLine("║  Dipsy.MemoryProtection - Real-World Demo                ║");
-Console.WriteLine("║  Secure In-Memory Password Encryption for .NET 10        ║");
+Console.WriteLine("║  Dipsy.MemoryProtection - Real-World Demo                 ║");
+Console.WriteLine("║  Secure In-Memory Password Encryption for .NET 10         ║");
 Console.WriteLine("╚═══════════════════════════════════════════════════════════╝");
 Console.WriteLine();
 
